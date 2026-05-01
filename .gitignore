@@ -1,0 +1,8 @@
+.DS_Store
+*.bak
+*.bak.*
+*.swp
+*.tmp
+
+# Inventor notebook (private)
+JORDAN-CONFIDENTIAL/
