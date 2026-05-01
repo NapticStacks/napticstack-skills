@@ -1,29 +1,49 @@
 #!/usr/bin/env bash
 # napticstack-skills setup — symlinks overlay skills into ~/.claude/skills/.
-# Idempotent. Safe to re-run.
+# Idempotent. Safe to re-run. Race-safe under simultaneous SessionStart.
 
 set -euo pipefail
+shopt -s nullglob
 
 OVERLAY_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 SKILLS_DIR="${HOME}/.claude/skills"
 
 mkdir -p "${SKILLS_DIR}"
 
+skill_dirs=( "${OVERLAY_DIR}/skills/"*/ )
+if [ "${#skill_dirs[@]}" -eq 0 ]; then
+  printf '[napticstack-skills] no skills found in %s; nothing to link.\n' "${OVERLAY_DIR}/skills"
+  exit 0
+fi
+
 linked=0
 skipped=0
-for skill_path in "${OVERLAY_DIR}/skills/"*/; do
+for skill_path in "${skill_dirs[@]}"; do
   skill_name="$(basename "${skill_path}")"
   target="${SKILLS_DIR}/${skill_name}"
-  if [ -L "${target}" ] && [ "$(readlink "${target}")" = "${skill_path%/}" ]; then
+  expected_target="${skill_path%/}"
+
+  if [ -L "${target}" ] && [ "$(readlink "${target}")" = "${expected_target}" ]; then
     skipped=$((skipped + 1))
     continue
   fi
-  if [ -e "${target}" ]; then
+
+  # Race-safe atomic relink: ln -sfn replaces an existing symlink in one syscall,
+  # but refuses to clobber a non-symlink. Check for non-symlink first to preserve
+  # the warn-and-skip contract for user-authored files at the same name.
+  if [ -e "${target}" ] && [ ! -L "${target}" ]; then
     printf '[napticstack-skills] WARN: %s already exists and is not our symlink. Skipping.\n' "${target}" >&2
     continue
   fi
-  ln -s "${skill_path%/}" "${target}"
-  linked=$((linked + 1))
+
+  ln -sfn "${expected_target}" "${target}"
+
+  # Verify post-write: a concurrent SessionStart may have just rewritten the link.
+  if [ "$(readlink "${target}")" = "${expected_target}" ]; then
+    linked=$((linked + 1))
+  else
+    printf '[napticstack-skills] WARN: %s changed under us (concurrent install?); leaving as-is.\n' "${target}" >&2
+  fi
 done
 
 printf '[napticstack-skills] linked %d skill(s); %d already-correct symlinks skipped.\n' "${linked}" "${skipped}"
