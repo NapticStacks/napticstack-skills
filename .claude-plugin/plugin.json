@@ -1,0 +1,19 @@
+{
+  "name": "napticstack-skills",
+  "description": "Naptic-owned overlay skills (UNF wrappers) layered on top of `gstack`. Skeleton — wrapper bodies arrive via sibling plan.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Jordan Mayer",
+    "email": "jordan@synapticstack.ai"
+  },
+  "homepage": "https://github.com/NapticStacks/napticstack-skills",
+  "repository": "https://github.com/NapticStacks/napticstack-skills",
+  "license": "UNLICENSED",
+  "keywords": [
+    "napticstacks",
+    "unf",
+    "overlay",
+    "gstack",
+    "skills"
+  ]
+}
