@@ -16,6 +16,7 @@ One row per UNF phase. Phases without a current mapping leave the skill columns 
 | 00a | engagement-setup | - | - | - |
 | 00b | roi-north-star | - | - | - |
 | 00c | kickoff-prep-brief | - | - | - |
+| 00d | client-communication-infrastructure | - | `superpowers:verification-before-completion` | - |
 | 01 | project-onboarding | `/office-hours`, `/plan-ceo-review` | `/plan-eng-review` | - |
 | 01a | requirements-extraction | - | - | - |
 | 01b | current-state-audit | - | - | - |
