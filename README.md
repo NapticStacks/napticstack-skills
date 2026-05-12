@@ -10,6 +10,7 @@ This repo provides **UNF (Unified Naptic Framework) wrappers around gstack skill
 - `naptic-review` wraps gstack `/review` with NapticStacks org conventions (review-requested-to `maydaycyber`, per-org git identity rules, label/project-board hygiene).
 - `naptic-cso` wraps gstack `/cso` with Naptic security posture (Bedrock Guardrails, Mayday/Naptic tenant separation, secrets-manager-first credential handling).
 - `naptic-phase-04` is a UNF Phase 04 helper (planning / scoping bridge between client discovery and tenant-register).
+- `naptic-sprint-recap` is a standalone end-of-push communication helper (no gstack underneath). Generates a 3-paragraph, 7th-grade-level recap of what shipped — what got built, how it works, how it fits the grand scheme — so the operator can paste it straight into a client update, investor note, or stand-up without translating from PR titles.
 
 The overlay is **thin** — wrappers add framing and call the gstack skill underneath; they do not reimplement gstack behavior.
 
@@ -39,6 +40,7 @@ skills/
   naptic-review/SKILL.md.tmpl
   naptic-cso/SKILL.md.tmpl
   naptic-phase-04/SKILL.md.tmpl
+  naptic-sprint-recap/SKILL.md
 UNF_PHASE_MAP.md
 setup
 .claude-plugin/plugin.json
