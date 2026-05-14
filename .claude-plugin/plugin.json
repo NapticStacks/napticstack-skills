@@ -1,7 +1,7 @@
 {
   "name": "napticstack-skills",
-  "description": "Naptic-owned overlay skills (UNF wrappers) layered on top of `gstack`. Skeleton — wrapper bodies arrive via sibling plan.",
-  "version": "0.0.1",
+  "description": "Naptic-owned team skills — UNF wrappers around `gstack` plus standalone team skills (e.g. `sprint-recap`).",
+  "version": "0.1.0",
   "author": {
     "name": "Jordan Mayer",
     "email": "jordan@synapticstack.ai"
